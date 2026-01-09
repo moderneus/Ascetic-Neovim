@@ -95,19 +95,11 @@ require("lazy").setup({
           { name = 'path' },
         }),
         window = {
-<<<<<<< HEAD
-	      completion = {
-            border = "rounded", -- Красивая тонкая рамка
-            max_height = 10,    -- Ограничение высоты в коде
-            max_width = 50,     -- Ограничение ширины (чтобы не на пол-экрана)
-=======
 	  completion = {
-            border = "rounded", 
-            max_height = 10,    
-            max_width = 50,     
->>>>>>> refs/remotes/origin/main
-            winhighlight = "Normal:CmpNormal,FloatBorder:TelescopeBorder,CursorLine:PmenuSel,Search:None",
-          },
+            border = "rounded",
+            max_height = 10,
+            max_width = 50,
+	  },
           documentation= cmp.config.disable,
         },
       })
