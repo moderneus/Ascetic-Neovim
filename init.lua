@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
+vim.opt.tabstop = 8
+vim.opt.shiftwidth = 8
+vim.opt.expandtab = false
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = false
@@ -15,6 +15,10 @@ vim.g.loaded_matchparen = 1
 
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, silent = true })
 
+vim.keymap.set('n', '<leader>w', ':w<CR>', { desc = 'Save file' })
+
+vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", lazypath })
@@ -24,7 +28,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.api.nvim_set_hl(0, "TelescopeBorder", { fg = "#3b4252" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpBorder", { fg = "#808080" })
--- fsdfs
+
 require("lazy").setup({
   {
       "olimorris/onedarkpro.nvim",
