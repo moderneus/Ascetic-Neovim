@@ -1,6 +1,7 @@
 vim.g.mapleader = " "
 vim.opt.tabstop = 8
 vim.opt.shiftwidth = 8
+vim.opt.softtabstop = 8
 vim.opt.expandtab = false
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -10,6 +11,9 @@ vim.opt.showmode = false
 vim.opt.ruler = false
 vim.opt.fillchars = { eob = " " }
 vim.opt.wrap = false
+
+vim.opt.list = true
+vim.opt.listchars = { tab = '» ', trail = '·' }
 
 vim.g.loaded_matchparen = 1
 
