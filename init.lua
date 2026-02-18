@@ -12,9 +12,6 @@ vim.opt.ruler = false
 vim.opt.fillchars = { eob = " " }
 vim.opt.wrap = false
 
-vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·' }
-
 vim.g.loaded_matchparen = 1
 
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, silent = true })
@@ -26,7 +23,6 @@ vim.keymap.set('n', '<leader>q', ':q<CR>', { desc = 'Quit' })
 vim.keymap.set('v', '<TAB>', '>gv', { desc = 'Indent right' })
 
 vim.keymap.set('v', '<S-TAB>', '<gv', { desc = 'Indent left' })
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", lazypath })
@@ -38,25 +34,6 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpBorder", { fg = "#808080" })
 
 require("lazy").setup({
-
-  {
-	'bluz71/vim-moonfly-colors',
-	priority=1000,
-	config = function() 
-		vim.cmd("colorscheme moonfly")
-	end	  
-  },
-
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    ---@module "ibl"
-    ---@type ibl.config
-    opts = {
-	indent = {char = "»"},
-    },
-  },
-
   { 
     'nvim-telescope/telescope.nvim', 
     dependencies = { 'nvim-lua/plenary.nvim' },
@@ -76,68 +53,4 @@ require("lazy").setup({
       vim.keymap.set('n', '<leader>fg', function() builtin.live_grep(minimal_opts) end)
     end
   },
-
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      require('lspconfig').clangd.setup({
-        cmd = { "clangd", "--header-insertion=never", "--completion-style=detailed", "--function-arg-placeholders=0" },
-        on_attach = function(_, bufnr)
-          local opts = { buffer = bufnr }
-          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-        end
-      })
-    end
-  },
-
-  {
-    'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path', 'hrsh7th/cmp-cmdline', 'L3MON4D3/LuaSnip' },
-    config = function()
-      local cmp = require('cmp')
-      local luasnip = require('luasnip')
-      cmp.setup({
-        snippet = { expand = function(args) luasnip.lsp_expand(args.body) end },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
-            else fallback() end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then luasnip.jump(-1)
-            else fallback() end
-          end, { 'i', 's' }),
-        }),
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-        }, {
-          { name = 'buffer' },
-          { name = 'path' },
-        }),
-        window = {
-	  completion = {
-            border = "rounded",
-            max_height = 10,
-            max_width = 50,
-	  },
-          documentation= cmp.config.disable,
-        },
-      })
-      cmp.setup.cmdline('/', { mapping = cmp.mapping.preset.cmdline(), sources = { { name = 'buffer' } } })
-      cmp.setup.cmdline(':', { mapping = cmp.mapping.preset.cmdline(), sources = cmp.config.sources({ { name = 'path' } }, { { name = 'cmdline' } }) })
-    end
-  },
-
-  {
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    config = function() require("nvim-autopairs").setup({}) end
-  },
-
 })
