@@ -1,8 +1,8 @@
 vim.g.mapleader = " "
-vim.opt.tabstop = 8
-vim.opt.shiftwidth = 8
-vim.opt.softtabstop = 8
-vim.opt.expandtab = false
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true 
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = false
@@ -71,11 +71,17 @@ local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("mason-lspconfig").setup({
-  ensure_installed = { "clangd" }, 
+	automatic_installation = false,
 })
 
-lspconfig.clangd.setup({
+require('lspconfig').clangd.setup({
   capabilities = capabilities,
+  cmd = {
+    "/usr/bin/clangd",
+    "--background-index",
+    "--clang-tidy",
+    "--header-insertion=never",
+  }
 })
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -139,3 +145,11 @@ vim.diagnostic.config({
 
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous error" })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Next error" })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        vim.keymap.set("n", "gq", function()
+            vim.lsp.buf.format({ async = true })
+        end, { buffer = args.buf })
+    end,
+})
