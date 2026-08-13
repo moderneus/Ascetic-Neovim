@@ -11,6 +11,7 @@ vim.opt.showmode = false
 vim.opt.ruler = false
 vim.opt.fillchars = { eob = " " }
 vim.opt.wrap = false
+vim.opt.termguicolors = true
 
 vim.g.loaded_matchparen = 1
 
@@ -153,3 +154,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end, { buffer = args.buf })
     end,
 })
+
+local bg_white        = "#FFFFFF"
+local keyword_blue    = "#2700ff"
+local standard_text   = "#000000"
+local function_black  = "#000000"
+local type_blue       = "#2700ff"
+local comment_grey    = "#586e75"
+
+vim.api.nvim_set_hl(0, "Normal", { fg = standard_text, bg = bg_white})
+vim.api.nvim_set_hl(0, "Keyword", { fg = keyword_blue, bold = true })
+vim.api.nvim_set_hl(0, "Statement", { fg = keyword_blue, bold = true })
+vim.api.nvim_set_hl(0, "Conditional", { fg = keyword_blue, bold = true })
+vim.api.nvim_set_hl(0, "Repeat", { fg = keyword_blue, bold = true })
+vim.api.nvim_set_hl(0, "Type", { fg = type_blue, bold = true })
+vim.api.nvim_set_hl(0, "Function", { fg = function_black })
+vim.api.nvim_set_hl(0, "Comment", { fg = comment_grey, italic = true })
+
+vim.api.nvim_set_hl(0, "@keyword.cpp", { fg = keyword_blue, bold = true })
+vim.api.nvim_set_hl(0, "@keyword.directive.cpp", { fg = keyword_blue, bold = true }) 
+vim.api.nvim_set_hl(0, "@type.builtin.cpp", { fg = keyword_blue, bg = type_blue })
+vim.api.nvim_set_hl(0, "@type.qualifier.cpp", { fg = keyword_blue, bold = true })
